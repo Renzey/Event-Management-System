@@ -27,21 +27,21 @@ public class Event_Management_System extends JFrame implements ActionListener{
         searchlbl.setBounds(10, 20, 65, 30);
         add(searchlbl);
         
-        search = new JTextField();
-        search.setBounds(90, 23, 170, 25);
-        add(search);
-        
         categorysearch = new JComboBox<>(new String[]{"Date DD-MM-YY", "Category"});
-        categorysearch.setBounds(280, 23, 120, 25);
+        categorysearch.setBounds(90, 23, 120, 25);
         add(categorysearch);
         
+        search = new JTextField();
+        search.setBounds(230, 23, 200, 25);
+        add(search);
+        
         searchbtn = new JButton("Search");
-        searchbtn.setBounds(420, 20, 80, 30);
+        searchbtn.setBounds(450, 20, 80, 30);
         searchbtn.addActionListener(this);
         add(searchbtn);
         
         showallbtn = new JButton("Show All");
-        showallbtn.setBounds(520, 20, 100, 30);
+        showallbtn.setBounds(550, 20, 100, 30);
         showallbtn.addActionListener(this);
         add(showallbtn);
         
@@ -101,9 +101,19 @@ public class Event_Management_System extends JFrame implements ActionListener{
         clearbtn.addActionListener(this);
         add(clearbtn);
         
+        attendeesbtn = new JButton("Attendees");
+        attendeesbtn.setBounds(700, 20, 100, 30);
+        attendeesbtn.addActionListener(this);
+        add(attendeesbtn);
     }
     @Override
     public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        if( ae.getSource() == attendeesbtn){
+            attendees app = new attendees();
+            app.setVisible(true);
+            dispose();
+        }
+        
     }
 }
