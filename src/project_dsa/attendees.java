@@ -5,16 +5,21 @@
  */
 package project_dsa;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
 
 public class attendees extends JFrame implements ActionListener{
 
-    private JLabel attdlbl, namelbl, emaillbl, priolbl, evtlbl, regislbl;
+    private JLabel  evt, regAttlbl, attdlbl, namelbl, emaillbl, priolbl, evtlbl, regislbl;
     private JTextField nametf, emailtf;
     private JComboBox priocbb, eventcbb;
-    private JButton addbtn, updatebtn, removebtn, clearbtn;
+    private JButton regbtn, checkinbtn, addfbbtn, cancelregbtn;
+    private JPanel attdpnl;
+    private JTable registeredtbl, waitingtbl;
+    private JComboBox evtcbb;
+    private JScrollPane regscpane;
     //add table
     
     attendees(){
@@ -23,55 +28,88 @@ public class attendees extends JFrame implements ActionListener{
         setLayout(null);
         setTitle("Attendance Details");
         
+        evt = new JLabel("Event: ");
+        evt.setBounds(15, 15, 45, 30);
+        add(evt);
+        
+        evtcbb = new JComboBox<>(new String []{"Event 1", "Event 2", "Event 3 "}); //connect this to the database to change wahat event after checking of GUI
+        evtcbb.setBounds(60, 15, 150, 30);
+        add(evtcbb);
+        
+        regAttlbl = new JLabel("Registered Attendees");
+        regAttlbl.setBounds(20, 50, 150, 30);
+        add(regAttlbl);
+        
+        //registed table
+        String [] data = {"ID", "Name", "Email", "Priority", "Checked In", "Rating"};
+        
+        String [][] SampleData = {
+            {"1", "admin1", "admin123@gmail.com", "VIp", "Yes", "5/5"},{"2", "admin2", "admin5678@gmai.com", "Member", "Yes", "3/5"}
+        };
+        
+        registeredtbl = new JTable(SampleData, data);
+        registeredtbl.setBounds(10, 75, 900, 180);
+        add(registeredtbl);
+        
+        regscpane = new JScrollPane(registeredtbl);
+        regscpane.setBounds(10, 75, 900, 180);
+        regscpane.setSize(900, 180);
+        add(regscpane);
+        
         
         
         attdlbl = new JLabel("Attendace Details: ");
-        attdlbl.setBounds(25, 15, 130, 30);
+        attdlbl.setBounds(25, 465, 130, 30);
         add(attdlbl);
         
         namelbl = new JLabel("Name");
-        namelbl.setBounds(35, 40, 80, 30);
+        namelbl.setBounds(35, 490, 80, 30);
         add(namelbl);
         
         nametf = new JTextField();
-        nametf.setBounds(35, 65, 350, 30);
+        nametf.setBounds(35, 520, 350, 30);
         add(nametf);
         
         emaillbl = new JLabel("Email");
-        emaillbl.setBounds(405, 40, 80, 30);
+        emaillbl.setBounds(405, 490, 80, 30);
         add(emaillbl);
         
         emailtf = new JTextField();
-        emailtf.setBounds(405, 65, 300, 30);
+        emailtf.setBounds(405, 520, 300, 30);
         add(emailtf);
         
         priolbl = new JLabel("Priority");
-        priolbl.setBounds(725, 40, 80, 30);
+        priolbl.setBounds(725, 490, 80, 30);
         add(priolbl);
         
         priocbb = new JComboBox<>(new String [] {"VIP","Member","Regular"});
-        priocbb.setBounds(725, 65, 150, 30);
+        priocbb.setBounds(725, 520, 150, 30);
         add(priocbb);
         
-        addbtn = new JButton("Add");
-        addbtn.setBounds(35, 100, 80, 30);
-        addbtn.addActionListener(this);
-        add(addbtn);
+        regbtn = new JButton("Register");
+        regbtn.setBounds(35, 555, 80, 30);
+        regbtn.addActionListener(this);
+        add(regbtn);
         
-        updatebtn = new JButton("Update List");
-        updatebtn.setBounds(135, 100, 100, 30);
-        updatebtn.addActionListener(this);
-        add(updatebtn);
+        checkinbtn = new JButton("Check in Selected ");
+        checkinbtn.setBounds(135, 555, 140, 30);
+        checkinbtn.addActionListener(this);
+        add(checkinbtn);
         
-        removebtn = new JButton("Remove List");
-        removebtn.setBounds(255, 100, 130, 30);
-        removebtn.addActionListener(this);
-        add(removebtn);
+        addfbbtn = new JButton("Add Feedback");
+        addfbbtn.setBounds(295, 555, 130, 30);
+        addfbbtn.addActionListener(this);
+        add(addfbbtn);
         
-        clearbtn = new JButton("Clear List");
-        clearbtn.setBounds(405, 100, 130, 30);
-        clearbtn.addActionListener(this);
-        add(clearbtn);
+        cancelregbtn = new JButton("Cancel Register");
+        cancelregbtn.setBounds(445, 555, 130, 30);
+        cancelregbtn.addActionListener(this);
+        add(cancelregbtn);
+        
+        attdpnl = new JPanel();
+        attdpnl.setBounds(15, 465, 890, 130);
+        attdpnl.setBorder(BorderFactory.createLineBorder(Color.gray));
+        add(attdpnl);
         
        
     }
