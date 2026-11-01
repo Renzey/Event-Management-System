@@ -44,21 +44,26 @@ public class Event_Management_System extends JFrame implements ActionListener{
         add(search);
         
         searchbtn = new JButton("Search");
-        searchbtn.setBounds(450, 20, 80, 30);
+        searchbtn.setBounds(435, 25, 80, 20);
         searchbtn.addActionListener(this);
         add(searchbtn);
         
         showallbtn = new JButton("Show All");
-        showallbtn.setBounds(550, 20, 100, 30);
+        showallbtn.setBounds(520, 25, 100, 20);
         showallbtn.addActionListener(this);
         add(showallbtn);
 
-        //table
+        //go to attendees or reports
         
-        attendeesbtn = new JButton("Attendees");
-        attendeesbtn.setBounds(700, 20, 100, 30);
+        attendeesbtn = new JButton("Go to Attendees");
+        attendeesbtn.setBounds(630, 20, 130, 30);
         attendeesbtn.addActionListener(this);
         add(attendeesbtn);
+        
+        reportbtn = new JButton("Go to Reports");
+        reportbtn.setBounds(770, 20, 140, 30);
+        reportbtn.addActionListener(this);
+        add(reportbtn);
         
         ///tables?
 
@@ -152,10 +157,14 @@ public class Event_Management_System extends JFrame implements ActionListener{
         
     }
     @Override
-    public void actionPerformed(ActionEvent ae) {
+    public void actionPerformed(ActionEvent e) {
         
-        if(ae.getSource() == attendeesbtn){
+        if(e.getSource() == attendeesbtn){
             attendees app = new attendees();
+            app.setVisible(true);
+            dispose();
+        }else if (e.getSource() == reportbtn){
+            Reports app = new Reports();
             app.setVisible(true);
             dispose();
         }

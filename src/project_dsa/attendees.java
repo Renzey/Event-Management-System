@@ -12,14 +12,14 @@ import javax.swing.*;
 
 public class attendees extends JFrame implements ActionListener{
 
-    private JLabel  evt, regAttlbl, attdlbl, namelbl, emaillbl, priolbl, evtlbl, regislbl;
+    private JLabel  evt, regAttlbl, waitlistlbl, attdlbl, namelbl, emaillbl, priolbl, evtlbl, regislbl;
     private JTextField nametf, emailtf;
     private JComboBox priocbb, eventcbb;
-    private JButton regbtn, checkinbtn, addfbbtn, cancelregbtn;
+    private JButton regbtn, checkinbtn, addfbbtn, cancelregbtn, evtmainbtn, rpbtn;
     private JPanel attdpnl;
     private JTable registeredtbl, waitingtbl;
     private JComboBox evtcbb;
-    private JScrollPane regscpane;
+    private JScrollPane regscpane, waitscpane;
     //add table
     
     attendees(){
@@ -56,13 +56,33 @@ public class attendees extends JFrame implements ActionListener{
         regscpane.setSize(900, 180);
         add(regscpane);
         
+        //waitng list table
+        
+        waitlistlbl = new JLabel("Waiting list (Priority queue: VIP > Member > Regular)");
+        waitlistlbl.setBounds(20, 250, 400, 30);
+        add(waitlistlbl);
+        
+        String [] data2 = {"Queue #", "Id", "Name", "Email", "Priority"};
+        String [][] Sampledata = {
+            {"1", "3", "admin3", "admin234@gmail,com", "VIP"},
+            {"2", "4", "admin4", "admin456@gmail.cpm", "Regular"}
+        };
+        waitingtbl = new JTable(Sampledata, data2);
+        waitingtbl.setBounds(10, 275, 900, 180);
+        add(waitingtbl);
+        
+        waitscpane = new JScrollPane(waitingtbl);
+        waitscpane.setBounds(10, 275, 900, 180);
+        waitscpane.setSize(900, 180);
+        add(waitscpane);
         
         
-        attdlbl = new JLabel("Attendace Details: ");
+        
+        attdlbl = new JLabel("Attendee Details: ");
         attdlbl.setBounds(25, 465, 130, 30);
         add(attdlbl);
         
-        namelbl = new JLabel("Name");
+        namelbl = new JLabel("Name: ");
         namelbl.setBounds(35, 490, 80, 30);
         add(namelbl);
         
@@ -70,7 +90,7 @@ public class attendees extends JFrame implements ActionListener{
         nametf.setBounds(35, 520, 350, 30);
         add(nametf);
         
-        emaillbl = new JLabel("Email");
+        emaillbl = new JLabel("Email: ");
         emaillbl.setBounds(405, 490, 80, 30);
         add(emaillbl);
         
@@ -78,7 +98,7 @@ public class attendees extends JFrame implements ActionListener{
         emailtf.setBounds(405, 520, 300, 30);
         add(emailtf);
         
-        priolbl = new JLabel("Priority");
+        priolbl = new JLabel("Priority: ");
         priolbl.setBounds(725, 490, 80, 30);
         add(priolbl);
         
@@ -87,7 +107,7 @@ public class attendees extends JFrame implements ActionListener{
         add(priocbb);
         
         regbtn = new JButton("Register");
-        regbtn.setBounds(35, 555, 80, 30);
+        regbtn.setBounds(35, 555, 90, 30);
         regbtn.addActionListener(this);
         add(regbtn);
         
@@ -111,14 +131,31 @@ public class attendees extends JFrame implements ActionListener{
         attdpnl.setBorder(BorderFactory.createLineBorder(Color.gray));
         add(attdpnl);
         
+        //button to back in eventmngmtsys
+        evtmainbtn = new JButton("Back to Event");
+        evtmainbtn.setBounds(630, 15, 130, 30);
+        evtmainbtn.addActionListener(this);
+        add(evtmainbtn);
        
+        rpbtn = new JButton("Go to Reports");
+        rpbtn.setBounds(770, 15, 130, 30);
+        rpbtn.addActionListener(this);
+        add(rpbtn);
     }
     
     
     
     @Override
-    public void actionPerformed(ActionEvent ae) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void actionPerformed(ActionEvent e) {
+       if (e.getSource() == evtmainbtn){
+           Event_Management_System app = new Event_Management_System();
+           app.setVisible(true);
+           dispose();
+       }else if (e.getSource() == rpbtn){
+           Reports app = new Reports();
+           app.setVisible(true);
+           dispose();
+       }
     }
     
     
