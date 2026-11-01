@@ -81,7 +81,7 @@ public class Event_Management_System extends JFrame implements ActionListener{
         //add event
         
         addeventlbl = new JLabel("Add Event");
-        addeventlbl.setBounds(50, 475, 100, 50);
+        addeventlbl.setBounds(35, 475, 100, 50);
         add(addeventlbl); 
         
         namelbl = new JLabel("Name:");
