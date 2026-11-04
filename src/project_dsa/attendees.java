@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class attendees extends JFrame implements ActionListener{
 
@@ -18,6 +19,7 @@ public class attendees extends JFrame implements ActionListener{
     private JButton regbtn, checkinbtn, addfbbtn, cancelregbtn, evtmainbtn, rpbtn;
     private JPanel attdpnl;
     private JTable registeredtbl, waitingtbl;
+    private DefaultTableModel wlmodel, rtmodel;
     private JComboBox evtcbb;
     private JScrollPane regscpane, waitscpane;
     //add table
@@ -41,14 +43,9 @@ public class attendees extends JFrame implements ActionListener{
         add(regAttlbl);
         
         //registed table
-        String [] data = {"ID", "Name", "Email", "Priority", "Checked In", "Rating"};
+        rtmodel = new DefaultTableModel(new String[]{"ID", "Name", "Email", "Priority", "Checked In", "Rating"},0);
         
-        String [][] SampleData = {
-            {"1", "admin1", "admin123@gmail.com", "VIp", "Yes", "5/5"},{"2", "admin2", "admin5678@gmai.com", "Member", "Yes", "3/5"}
-        };
-        
-        registeredtbl = new JTable(SampleData, data);
-        registeredtbl.setBounds(10, 75, 900, 180);
+        registeredtbl = new JTable(rtmodel);
         add(registeredtbl);
         
         regscpane = new JScrollPane(registeredtbl);
@@ -62,13 +59,9 @@ public class attendees extends JFrame implements ActionListener{
         waitlistlbl.setBounds(20, 250, 400, 30);
         add(waitlistlbl);
         
-        String [] data2 = {"Queue #", "Id", "Name", "Email", "Priority"};
-        String [][] Sampledata = {
-            {"1", "3", "admin3", "admin234@gmail,com", "VIP"},
-            {"2", "4", "admin4", "admin456@gmail.cpm", "Regular"}
-        };
-        waitingtbl = new JTable(Sampledata, data2);
-        waitingtbl.setBounds(10, 275, 900, 180);
+        wlmodel = new DefaultTableModel(new String[] {"Queue #", "Id", "Name", "Email", "Priority"},0);
+        
+        waitingtbl = new JTable(wlmodel);
         add(waitingtbl);
         
         waitscpane = new JScrollPane(waitingtbl);

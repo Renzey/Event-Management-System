@@ -5,9 +5,14 @@
  */
 package project_dsa;
 
+import java.sql.*; //para sa con, pst, at rs
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 public class Login extends JFrame implements ActionListener {
@@ -18,7 +23,25 @@ public class Login extends JFrame implements ActionListener {
     private JButton loginbtn, clearbtn;
     private JPanel panel;
 
+    Connection con;
+    PreparedStatement pst;
+    ResultSet rs;
+    
+    private void Connect(){
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/event_management","root","");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     Login() {
+        Connect();//connector sa databaes
         setSize(450, 350);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(null);
@@ -63,16 +86,30 @@ public class Login extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == loginbtn) {
-            String user = usertf.getText();
-            String pass = new String(passtf.getPassword());
-
-            if (user.equals("") || pass.equals("")) {
-                JOptionPane.showMessageDialog(this, "Please enter username and password!");
-            } else {
+        Connect();
+            String Username = usertf.getText();
+            String Password = passtf.getText();
+            
+            try{
+                pst = con.prepareStatement("SELECT * FROM login WHERE username=? AND password=?");
+                pst.setString(1, Username);
+                pst.setString(2, Password);
+                rs = pst.executeQuery();
+            if (Username.isEmpty() || Password.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Please enter username and password!");
+            } else if (rs.next()){
+                JOptionPane.showMessageDialog(null, "ACCESS GRANTED!");
                 Event_Management_System app = new Event_Management_System();
                 app.setVisible(true);
                 dispose();
             }
+            else {
+                JOptionPane.showMessageDialog(null, "ACCESS DENIED!");
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
         } else if (e.getSource() == clearbtn) {
             usertf.setText("");
             passtf.setText("");
