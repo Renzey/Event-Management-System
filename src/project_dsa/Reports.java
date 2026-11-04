@@ -43,6 +43,8 @@ public class Reports extends JFrame implements ActionListener{
         
         //report
         report = new JTextArea();
+        report.setEditable(false);
+        report.setText("No report yet.");
         report.setBounds(10, 65, 900, 520);
         add(report);
         
