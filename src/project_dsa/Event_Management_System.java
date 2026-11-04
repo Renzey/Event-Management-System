@@ -5,11 +5,12 @@
  */
 package project_dsa;
 
-import com.mysql.jdbc.Connection;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.DriverManager;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
@@ -23,8 +24,29 @@ public class Event_Management_System extends JFrame implements ActionListener{
     private JTable table;
     private JPanel panel;
     private JScrollPane sp;
+    private DefaultTableModel model;
+    
+    Connection con;
+    PreparedStatement pst;
+    ResultSet rs;
+    
+    private void Connect(){
+        
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/event_management","root","");
+            
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
     
     Event_Management_System(){
+        Connect();
         setSize(940, 700);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setTitle("Event Management System");
@@ -53,7 +75,7 @@ public class Event_Management_System extends JFrame implements ActionListener{
         showallbtn.addActionListener(this);
         add(showallbtn);
 
-        //go to attendees or reports
+        //go to attendees or reports page/file or what 
         
         attendeesbtn = new JButton("Go to Attendees");
         attendeesbtn.setBounds(630, 20, 130, 30);
@@ -67,21 +89,26 @@ public class Event_Management_System extends JFrame implements ActionListener{
         
         ///tables?
 
-        String[][] sampledata = {
-            {"1", "SportFest", "Sport", "10", "5", "5"},
-            {"2", "Lecture", "Seminar", "50", "10", "40"}
-        };
-        String[] data = {"ID", "Name", "Category", "Attendees", "Waiting", "Guest(s)"};
+        model = new DefaultTableModel(new String[]{"ID", "Name", "Date", "Category", "Attendees", "Waiting","Guest(s)"}, 0);
         
-        table = new JTable(sampledata, data);
-        table.setBounds(10, 65, 900, 400);
+        table = new JTable(model);
         table.setBorder(BorderFactory.createLineBorder(Color.black));
-        add(table);
         
         sp = new JScrollPane(table);
         sp.setBounds(10, 65, 900, 400);
         sp.setSize(900, 400);
         add(sp);
+        
+        /**table.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()){
+                
+            }
+        });**/
+        
+        loadEvents();
+        
+        
+        
         
         //add event
         
@@ -147,13 +174,6 @@ public class Event_Management_System extends JFrame implements ActionListener{
         add(panel);
         
         
-        //database??
-        
-        /** try {
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/event_management/evt", "root", "");
-        }catch(){
-        
-        } **/
         
     }
     @Override
@@ -167,8 +187,44 @@ public class Event_Management_System extends JFrame implements ActionListener{
             Reports app = new Reports();
             app.setVisible(true);
             dispose();
+        }else if (e.getSource() == showallbtn){
+            loadEvents();
+        }else if(e.getSource() == addeventbtn){
+            
+        }else if(e.getSource() == updatebtn){
+            
+        }else if(e.getSource() == deletebtn){
+            
+        }else if(e.getSource() == clearbtn){
+            addname.setText("");
+            adddate.setText("");
+            addcategory.setText("");
+            addcapacity.setText("");
+            table.clearSelection();
         }
     }
-    
+    private void loadEvents(){
+            model.setRowCount(0);
+            
+            String sql = "SELECT id, name, date, category, attendees, waiting, capacity FROM evt";
+            try{
+                pst = con.prepareStatement(sql);
+                rs = pst.executeQuery();
+                
+                while(rs.next()){
+                    model.addRow(new Object[]{
+                    rs.getInt("id"),
+                    rs.getString("name"),
+                    rs.getString("date"),
+                    rs.getString("category"),
+                    rs.getInt("attendees"),
+                    rs.getInt("waiting"),
+                    rs.getInt("capacity")
+                    });
+                }
+            } catch (SQLException ex) {
+            Logger.getLogger(Event_Management_System.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        }
     
 }

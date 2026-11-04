@@ -15,7 +15,7 @@ public class Project_DSA {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        Event_Management_System app = new Event_Management_System();
+        Login app = new Login();
         app.setVisible(true);
     }
     
