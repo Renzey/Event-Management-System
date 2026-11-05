@@ -89,7 +89,7 @@ public class Event_Management_System extends JFrame implements ActionListener{
         
         ///tables?
 
-        model = new DefaultTableModel(new String[]{"ID", "Name", "Date", "Category", "Attendees", "Waiting","Guest(s)"}, 0);
+        model = new DefaultTableModel(new String[]{"ID", "Name", "Date", /**"Category",**/ "Attendees" /**, "Waiting","Guest(s)"**/}, 0);
         
         table = new JTable(model);
         table.setBorder(BorderFactory.createLineBorder(Color.black));
@@ -206,20 +206,20 @@ public class Event_Management_System extends JFrame implements ActionListener{
     private void loadEvents(){
             model.setRowCount(0);
             
-            String sql = "SELECT id, name, date, category, attendees, waiting, capacity FROM evt";
+            String sql = "SELECT eventid, name, date, category, attendees FROM evt";/**, waiting, capacity FROM evt";**/ 
             try{
                 pst = con.prepareStatement(sql);
                 rs = pst.executeQuery();
                 
                 while(rs.next()){
                     model.addRow(new Object[]{
-                    rs.getInt("id"),
+                    rs.getInt("eventid"),
                     rs.getString("name"),
                     rs.getString("date"),
                     rs.getString("category"),
                     rs.getInt("attendees"),
-                    rs.getInt("waiting"),
-                    rs.getInt("capacity")
+                //    rs.getInt("waiting"),
+                //    rs.getInt("capacity")
                     });
                 }
             } catch (SQLException ex) {
